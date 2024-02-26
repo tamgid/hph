@@ -156,6 +156,17 @@ const HomePage = ({ navigation, route }) => {
             />
             <Text style={styles.sidebarOptionText}>React</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.sidebarOption}
+          >
+            <Icon
+              name="sign-out"
+              size={20}
+              color="#333"
+              style={styles.sidebarOptionIcon}
+            />
+            <Text style={styles.sidebarOptionText}>Sign Out</Text>
+          </TouchableOpacity>
         </Animated.View>
       )}
     </View>
