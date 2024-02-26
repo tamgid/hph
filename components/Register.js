@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Platform, TextInput, Pressable, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { firebase } from '../config';
 import { Ionicons } from '@expo/vector-icons';
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const Register = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -10,10 +11,34 @@ const Register = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [phone, setPhone] = useState('');
   const [location, setLocation] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [formReady, setFormReady] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(true);
+
+  
+  const [date, setDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
+
+  const toggleDatepicker = () => {
+    setShowPicker(!showPicker);
+  };
+
+  const onChange = ({ type }, selectedDate) => {
+    if(type == "set") {
+      const currentDate = selectedDate;
+      setDate(currentDate);
+
+      if(Platform.OS === "android"){
+        toggleDatepicker();
+        setDateOfBirth(currentDate.toDateString());
+      }
+    }else{
+      toggleDatepicker();
+    }
+  };
   
 
   useEffect(() => {
@@ -49,7 +74,7 @@ const Register = ({ navigation }) => {
       setErrorMessage('Username is already taken');
       return;
     }
-    if (!name || !password || !phone || !username  || !location) {
+    if (!name || !password || !phone || !username  || !location || !dateOfBirth) {
       setErrorMessage('Please provide all the necessary information');
       setTimeout(() => {
         setErrorMessage('');
@@ -63,6 +88,7 @@ const Register = ({ navigation }) => {
         password,
         phone,
         location,
+        dateOfBirth,
       });
 
       setName('');
@@ -70,6 +96,7 @@ const Register = ({ navigation }) => {
       setUsername('');
       setPhone('');
       setLocation('');
+      setDateOfBirth('');
 
     } catch (error) {
       console.error('Error creating user:', error);
@@ -141,6 +168,33 @@ const Register = ({ navigation }) => {
           value={location}
           onChangeText={(text) => setLocation(text)}
         />
+
+        <View>
+          {showPicker && (
+            <DateTimePicker
+            mode="date"
+            display='spinner'
+            value={date}
+            onChange={onChange}
+          />
+          )}
+
+          {!showPicker && (
+            <Pressable
+            onPress={toggleDatepicker}
+          >
+            <TextInput
+              style={styles.input}
+              placeholder='Date of Birth'
+              value={dateOfBirth}
+              onChangeText={setDateOfBirth}
+              placeholderTextColor="#11182744"
+              editable={false}
+            />
+          </Pressable>
+          )}
+        </View>
+
         <TouchableOpacity 
         style={[styles.signupButton, !isUsernameAvailable && styles.disabledButton]} // Disable button if username is not available
         onPress={handleSignUp} 

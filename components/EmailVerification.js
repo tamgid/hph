@@ -7,7 +7,7 @@ const EmailVerification = ({ navigation, route }) => {
     const [email, setEmail] = useState("");
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const { name, username, password, phone, location } = route.params;
+    const { name, username, password, phone, location, dateOfBirth } = route.params;
 
   const handleSignUp = async () => {
 
@@ -22,7 +22,7 @@ const EmailVerification = ({ navigation, route }) => {
       const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
       const user = userCredential.user;
       console.log('User created:', user);
-      const currentDate = new Date();
+      //const currentDate = new Date();
 
       // Send email verification
       await user.sendEmailVerification();
@@ -37,7 +37,7 @@ const EmailVerification = ({ navigation, route }) => {
         password: password,
         username: username,
         phone: phone,
-        regDate: currentDate.toISOString(),
+        dateOfBirth: dateOfBirth,
         location: location,
         // Add more fields as needed
       });
