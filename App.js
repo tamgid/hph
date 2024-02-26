@@ -18,6 +18,7 @@ import EmailVerification from './components/EmailVerification';
 import RatingList from './components/RatingList';
 import PatientInfo from './components/PatientInfo';
 import EmbedVedio from './components/EmbedVedio';
+import Map from './components/Map';
 
 
 
@@ -42,6 +43,7 @@ export default function App() {
         <Stack.Screen name='RatingList' component={RatingList} />
         <Stack.Screen name='PatientInfo' component={PatientInfo} />
         <Stack.Screen name='EmbedVedio' component={EmbedVedio} />
+        <Stack.Screen name='Map' component={Map} />
       </Stack.Navigator>
     </NavigationContainer>
   );

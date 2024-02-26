@@ -47,6 +47,7 @@ const HomePage = ({ navigation, route }) => {
     { id: 6, text: "Necessary Upload", screen: "Upload" },
     { id: 7, text: "Patient List", screen: "PatientInfo" },
     { id: 8, text: "Health Tips", screen: "EmbedVedio" },
+    { id: 8, text: "Your Loaction", screen: "Map" },
     // Add more buttons as needed
   ];
 
