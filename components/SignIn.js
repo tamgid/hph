@@ -9,16 +9,32 @@ import {
 } from "react-native";
 import { firebase } from "../config";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignIn = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
 
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const checkStoredEmail = async () => {
+    try {
+      const storedEmail = await AsyncStorage.getItem("userEmail");
+      console.log("Stored email:", storedEmail);
+      // If email is found, navigate to home page
+      // if (storedEmail) {
+      //   navigation.navigate("HomePage");
+      // }
+    } catch (error) {
+      console.error("Error retrieving stored email:", error);
+    }
+  };
+
   const handleSignIn = async () => {
-    if (!email || !password) {
+    if (!data.email || !data.password) {
       setErrorMessage("Please provide necessary information");
       setTimeout(() => {
         setErrorMessage("");
@@ -28,34 +44,44 @@ const SignIn = ({ navigation }) => {
 
     try {
       // Check if the input is an email
-      const isEmailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      const isEmailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email);
 
       if (isEmailFormat) {
         // Proceed with email-based login
         const userCredential = await firebase
           .auth()
-          .signInWithEmailAndPassword(email, password);
+          .signInWithEmailAndPassword(data.email, data.password);
         const user = userCredential.user;
-        
+        // Store user email in AsyncStorage upon successful login
+        await AsyncStorage.setItem("userEmail", JSON.stringify(data));
+
         // Navigate to the HomePage and pass user details as params
         const userData = await firebase
           .firestore()
           .collection("users")
-          .where("email", "==", email)
+          .where("email", "==", data.email)
           .get();
         userData.forEach((doc) => {
           const userData = doc.data();
           const { name, email, location, phone, regDate, username } = userData;
+          checkStoredEmail();
 
           // Navigate to the HomePage and pass user details as params
-          navigation.navigate("HomePage", { name, email, location, phone, regDate, username  });
+          navigation.navigate("HomePage", {
+            name,
+            email,
+            location,
+            phone,
+            regDate,
+            username,
+          });
         });
       } else {
         // Find the email associated with the provided username from Firestore
         const usernameSnapshot = await firebase
           .firestore()
           .collection("users")
-          .where("username", "==", email)
+          .where("username", "==", data.email)
           .get();
 
         if (usernameSnapshot.docs.length > 0) {
@@ -65,22 +91,23 @@ const SignIn = ({ navigation }) => {
           // Log in with the retrieved email
           const userCredential = await firebase
             .auth()
-            .signInWithEmailAndPassword(userEmail, password);
+            .signInWithEmailAndPassword(userEmail, data.password);
           const user = userCredential.user;
+          // Store user email in AsyncStorage upon successful login
+          // await AsyncStorage.setItem("userEmail", userEmail);
           // Navigate to the HomePage and pass user details as params
           const userDatam = await firebase
-          .firestore()
-          .collection("users")
-          .where("email", "==", user.email)
-          .get();
-        userDatam.forEach((doc) => {
-          const userDatam = doc.data();
-          const { name, email } = userDatam;
+            .firestore()
+            .collection("users")
+            .where("email", "==", user.email)
+            .get();
+          userDatam.forEach((doc) => {
+            const userDatam = doc.data();
+            const { name, email } = userDatam;
 
-          // Navigate to the HomePage and pass user details as params
-          navigation.navigate("HomePage", { name, email });
-        });
-          
+            // Navigate to the HomePage and pass user details as params
+            navigation.navigate("HomePage", { name, email });
+          });
         } else {
           setErrorMessage("User not found");
           setTimeout(() => {
@@ -90,8 +117,11 @@ const SignIn = ({ navigation }) => {
       }
 
       // Clear input fields
-      setEmail("");
-      setPassword("");
+      setData({
+        email: null,
+        password: null,
+      });
+      
     } catch (error) {
       console.error("Error signing in:", error);
       // Handle error, such as displaying an error message to the user
@@ -121,16 +151,16 @@ const SignIn = ({ navigation }) => {
         <TextInput
           style={styles.input}
           placeholder="Username or Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
+          value={data.email}
+          onChangeText={(text) => setData({ ...data, email: text })}
           keyboardType="email-address"
         />
         <View style={styles.passwordContainer}>
           <TextInput
             style={styles.passwordInput}
             placeholder="Password"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
+            value={data.password}
+            onChangeText={(text) => setData({ ...data, password: text })}
             secureTextEntry={!showPassword}
           />
           <TouchableOpacity

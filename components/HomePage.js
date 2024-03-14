@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,11 +9,55 @@ import {
   StyleSheet,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { firebase } from "../config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const HomePage = ({ navigation, route }) => {
+const HomePage = ({ navigation }) => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const translateX = useRef(new Animated.Value(0)).current;
-  const { name, email, location, phone, regDate, username  } = route.params;
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [location, setLocation] = useState("");
+  const [phone, setPhone] = useState("");
+  const [regDate, setRegDate] = useState("");
+  const [username, setUsername] = useState("");
+  // const { name, email, location, phone, regDate, username } = route.params;
+
+  useEffect(() => {
+    checkStoredEmail();
+  }, []);
+
+  const checkStoredEmail = async () => {
+    try {
+      const storedUser = await AsyncStorage.getItem("userEmail");
+      // console.log("Stored email:", storedEmail);
+      if (storedUser) {
+        const userData = JSON.parse(storedUser);
+        console.log(userData.email);
+        // Navigate to the HomePage and pass user details as params
+        // Query Firestore to get user data based on email
+        const userSnapshot = await firebase
+          .firestore()
+          .collection("users")
+          .where("email", "==", userData.email)
+          .get();
+
+        // Extract user data from the document
+        userSnapshot.forEach((doc) => {
+          const userData = doc.data();
+          const { name, email, location, phone, regDate, username } = userData;
+          setName(name);
+          setEmail(email);
+          setLocation(location);
+          setPhone(phone);
+          setRegDate(regDate);
+          setUsername(username);
+        });
+      }
+    } catch (error) {
+      console.error("Error retrieving stored email:", error);
+    }
+  };
 
   const panResponder = useRef(
     PanResponder.create({
@@ -42,12 +86,12 @@ const HomePage = ({ navigation, route }) => {
     { id: 2, text: "Comment or Review", screen: "Rating" },
     // I need to navigate this page to RatingList page. But it is temporarily navigated to ReactPage
     { id: 3, text: "React Review", screen: "RatingList" },
-    { id: 4, text: "Notification", screen: "Notification" },
+    { id: 4, text: "About HPH", screen: "About" },
     { id: 5, text: "Rate this App", screen: "Rating" },
     { id: 6, text: "Necessary Upload", screen: "Upload" },
     { id: 7, text: "Patient List", screen: "PatientInfo" },
     { id: 8, text: "Health Tips", screen: "EmbedVedio" },
-    { id: 8, text: "Your Loaction", screen: "Map" },
+    { id: 9, text: "Your Loaction", screen: "Map" },
     // Add more buttons as needed
   ];
 
@@ -65,6 +109,30 @@ const HomePage = ({ navigation, route }) => {
 
   const sidebarStyle = {
     transform: [{ translateX }],
+  };
+
+  const clearAsyncStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      console.log("AsyncStorage has been cleared successfully.");
+    } catch (error) {
+      console.error("Error clearing AsyncStorage:", error);
+    }
+  };
+
+  const handleSignOut = () => {
+    clearAsyncStorage();
+    firebase 
+      .auth()
+      .signOut()
+      .then(() => {
+        // Navigate to FrontPage after successful sign-out
+        navigation.navigate("FrontPage");
+      })
+      .catch((error) => {
+        // Handle sign-out errors
+        console.error("Sign-out error:", error);
+      });
   };
 
   return (
@@ -87,7 +155,16 @@ const HomePage = ({ navigation, route }) => {
             <TouchableOpacity
               key={button.id}
               style={styles.squareButton}
-              onPress={() => navigation.navigate(button.screen, { name, email, location, phone, regDate, username  })}
+              onPress={() =>
+                navigation.navigate(button.screen, {
+                  name,
+                  email,
+                  location,
+                  phone,
+                  regDate,
+                  username,
+                })
+              }
             >
               <Text style={styles.buttonText}>{button.text}</Text>
             </TouchableOpacity>
@@ -159,6 +236,7 @@ const HomePage = ({ navigation, route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.sidebarOption}
+            onPress={handleSignOut} // Call handleSignOut function onPress
           >
             <Icon
               name="sign-out"
@@ -194,7 +272,7 @@ const styles = StyleSheet.create({
   squareButton: {
     width: "45%", // Adjust as needed for spacing
     aspectRatio: 1, // Ensures a square shape
-    backgroundColor: "#727e83", // You can change the color
+    backgroundColor: "#2E71DC", // You can change the color
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,

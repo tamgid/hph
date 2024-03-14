@@ -5,8 +5,8 @@ import * as Location from 'expo-location';
 
 const Map = () => {
     const [mapRegion, setMapRegion] = useState({
-        latitude:  22.341900,
-        longitude: 91.815536,
+        latitude:   22.471038,
+        longitude: 91.788466,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     });
