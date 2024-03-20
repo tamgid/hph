@@ -82,17 +82,16 @@ const HomePage = ({ navigation }) => {
   ).current;
 
   const buttonData = [
-    { id: 1, text: "Check Health", screen: "CheckHealth" },
-    { id: 2, text: "Comment or Review", screen: "Rating" },
-    // I need to navigate this page to RatingList page. But it is temporarily navigated to ReactPage
-    { id: 3, text: "React Review", screen: "RatingList" },
-    { id: 4, text: "About HPH", screen: "About" },
-    { id: 5, text: "Rate this App", screen: "Rating" },
-    { id: 6, text: "Necessary Upload", screen: "Upload" },
-    { id: 7, text: "Patient List", screen: "PatientInfo" },
-    { id: 8, text: "Health Tips", screen: "EmbedVedio" },
-    { id: 9, text: "Your Loaction", screen: "Map" },
-    // Add more buttons as needed
+    { id: 1, text: "Check Health", icon: "heartbeat", screen: "CheckHealth" },
+    { id: 2, text: "React Review", icon: "thumbs-up", screen: "RatingList" },
+    { id: 3, text: "About HPH", icon: "info-circle", screen: "About" },
+    { id: 4, text: "Rate this App", icon: "star", screen: "Rating" },
+    { id: 5, text: "Necessary Upload", icon: "upload", screen: "Upload" },
+    { id: 6, text: "Patient List", icon: "user", screen: "PatientInfo" },
+    { id: 7, text: "Health Video", icon: "video-camera", screen: "EmbedVedio" },
+    { id: 8, text: "Your Location", icon: "map-marker", screen: "Map" },
+    { id: 9, text: "ChatBot", icon: "comments", screen: "ChatBot1" },
+    { id: 10, text: "Graph QL", icon: "database", screen: "GraphQl" },
   ];
 
   const toggleSidebar = () => {
@@ -166,6 +165,7 @@ const HomePage = ({ navigation }) => {
                 })
               }
             >
+              <Icon name={button.icon} size={40} color="#fff" />
               <Text style={styles.buttonText}>{button.text}</Text>
             </TouchableOpacity>
           ))}
@@ -198,7 +198,7 @@ const HomePage = ({ navigation }) => {
             />
             <Text style={styles.sidebarOptionText}>Check Health</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.sidebarOption}
             onPress={() => navigation.navigate("Upload")}
           >
@@ -209,7 +209,7 @@ const HomePage = ({ navigation }) => {
               style={styles.sidebarOptionIcon}
             />
             <Text style={styles.sidebarOptionText}>Upload</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={styles.sidebarOption}
             onPress={() => navigation.navigate("Comment")}
@@ -222,7 +222,7 @@ const HomePage = ({ navigation }) => {
             />
             <Text style={styles.sidebarOptionText}>Comment</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.sidebarOption}
             onPress={() => navigation.navigate("ReactPage")}
           >
@@ -233,7 +233,7 @@ const HomePage = ({ navigation }) => {
               style={styles.sidebarOptionIcon}
             />
             <Text style={styles.sidebarOptionText}>React</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={styles.sidebarOption}
             onPress={handleSignOut} // Call handleSignOut function onPress
@@ -270,13 +270,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   squareButton: {
-    width: "45%", // Adjust as needed for spacing
-    aspectRatio: 1, // Ensures a square shape
-    backgroundColor: "#2E71DC", // You can change the color
+    width: "44%", // Adjust as needed for spacing
+    height: "20%",   
+    backgroundColor: "#4681f4", // You can change the color
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
-    marginBottom: 10, // Adjust for vertical spacing
+    borderRadius: 5,
+    marginBottom: 15, // Adjust for vertical spacing
   },
   buttonText: {
     color: "#fff",

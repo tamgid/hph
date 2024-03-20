@@ -11,7 +11,7 @@ import HomePage from "./components/HomePage";
 import ForgotPassword from "./components/ForgotPassword";
 import CheckHealth from "./components/CheckHealth";
 import Comment from "./components/Comment";
-import ReactPage from "./components/ReactPage";
+import GraphQl from "./components/GraphQl";
 import About from "./components/About";
 import Upload from "./components/Upload";
 import Rating from "./components/Rating";
@@ -25,6 +25,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { firebase } from "./config";
 import Card from "./components/Card";
 import WalletCard from "./components/WalletCard";
+import ChatBot1 from "./components/ChatBot1";
 
 import "react-native-gesture-handler";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -34,6 +35,14 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+// Initialize Apollo Client
+const client = new ApolloClient({
+  uri: 'https://countries.trevorblades.com/graphql',
+  cache: new InMemoryCache()
+});
 
 function TabNavigator() {
   return (
@@ -98,7 +107,7 @@ function StackNavigator() {
       <Stack.Screen name="HomePage" component={HomePage} />
       <Stack.Screen name="CheckHealth" component={CheckHealth} />
       <Stack.Screen name="Comment" component={Comment} />
-      <Stack.Screen name="ReactPage" component={ReactPage} />
+      <Stack.Screen name="GraphQl" component={GraphQl} />
       <Stack.Screen name="About" component={About} />
       <Stack.Screen name="Upload" component={Upload} />
       <Stack.Screen name="Rating" component={Rating} />
@@ -110,15 +119,18 @@ function StackNavigator() {
       <Stack.Screen name="Map" component={Map} />
       <Stack.Screen name="Card" component={Card} />
       <Stack.Screen name="WalletCard" component={WalletCard} />
+      <Stack.Screen name="ChatBot1" component={ChatBot1} />
     </Stack.Navigator>
   );
 }
 
 export default function App() {
   return (
+    <ApolloProvider client={client}>
     <NavigationContainer>
-      <TabNavigator />
+      <StackNavigator />
     </NavigationContainer>
+    </ApolloProvider>
   );
 }
 

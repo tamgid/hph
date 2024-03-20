@@ -1,100 +1,98 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import styled from 'styled-components/native';
+
+const Container = styled.View`
+  flex: 1;
+  background-color: #fff;
+`;
+
+const CoverPhoto = styled.Image`
+  width: 100%;
+  height: 200px;
+  resize-mode: cover;
+`;
+
+const ProfilePictureContainer = styled.View`
+  position: absolute;
+  top: 150px;
+  left: 20px;
+  border-width: 3px;
+  border-color: #fff;
+  border-radius: 60px;
+`;
+
+const ProfilePicture = styled.Image`
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+`;
+
+const UserInfo = styled.View`
+  margin-top: 100px;
+  align-items: center;
+`;
+
+const Name = styled.Text`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+`;
+
+const Bio = styled.Text`
+  font-size: 16px;
+  margin-bottom: 8px;
+`;
+
+const Location = styled.Text`
+  font-size: 16px;
+  color: gray;
+`;
+
+const Tabs = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 20px;
+  border-top-width: 1px;
+  border-color: #ddd;
+  padding-vertical: 10px;
+`;
+
+const Tab = styled.TouchableOpacity`
+  flex: 1;
+  align-items: center;
+`;
+
+const TabText = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+`;
 
 const ProfileScreen = () => {
   return (
-    <View style={styles.container}>
-      {/* Cover Photo */}
-      <Image
-        source={require('../image/cover.jpg')}
-        style={styles.coverPhoto}
-      />
-      {/* Profile Picture */}
-      <TouchableOpacity style={styles.profilePictureContainer}>
-        <Image
-          source={require('../image/tamgid.jpg')}
-          style={styles.profilePicture}
-        />
-      </TouchableOpacity>
-      {/* User Information */}
-      <View style={styles.userInfo}>
-        <Text style={styles.name}>Shadekur Rahman Tamgid</Text>
-        <Text style={styles.bio}>Software Developer | Photographer</Text>
-        <Text style={styles.location}>Chittagong, Bangladesh</Text>
-      </View>
-      {/* Navigation Tabs */}
-      <View style={styles.tabs}>
-        {/* <TouchableOpacity style={styles.tab}>
-          <Text style={styles.tabText}>Posts</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tab}>
-          <Text style={styles.tabText}>Photos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tab}>
-          <Text style={styles.tabText}>Friends</Text>
-        </TouchableOpacity> */}
-        {/* Add more tabs as needed */}
-      </View>
-    </View>
+    <Container>
+      <CoverPhoto source={require('../image/cover.jpg')} />
+      <ProfilePictureContainer>
+        <ProfilePicture source={require('../image/tamgid.jpg')} />
+      </ProfilePictureContainer>
+      <UserInfo>
+        <Name>Shadekur Rahman Tamgid</Name>
+        <Bio>Software Developer | Photographer</Bio>
+        <Location>Chittagong, Bangladesh</Location>
+      </UserInfo>
+      <Tabs>
+        {/* Add your tabs here */}
+        {/* <Tab>
+          <TabText>Posts</TabText>
+        </Tab>
+        <Tab>
+          <TabText>Photos</TabText>
+        </Tab>
+        <Tab>
+          <TabText>Friends</TabText>
+        </Tab> */}
+      </Tabs>
+    </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  coverPhoto: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'cover',
-  },
-  profilePictureContainer: {
-    position: 'absolute',
-    top: 150,
-    left: 20,
-    borderWidth: 3,
-    borderColor: '#fff',
-    borderRadius: 60,
-  },
-  profilePicture: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-  },
-  userInfo: {
-    marginTop: 100,
-    alignItems: 'center',
-  },
-  name: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  bio: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  location: {
-    fontSize: 16,
-    color: 'gray',
-  },
-  tabs: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 20,
-    borderTopWidth: 1,
-    borderColor: '#ddd',
-    paddingVertical: 10,
-  },
-  tab: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  tabText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});
 
 export default ProfileScreen;

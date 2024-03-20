@@ -1,58 +1,60 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import styled from 'styled-components/native';
 
 const SettingsScreen = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Settings</Text>
-      </View>
-      <TouchableOpacity style={styles.option}>
-        <Text style={styles.optionText}>Account Settings</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.option}>
-        <Text style={styles.optionText}>Notifications</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.option}>
-        <Text style={styles.optionText}>Privacy</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.option}>
-        <Text style={styles.optionText}>Security</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.option}>
-        <Text style={styles.optionText}>Help & Support</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.option}>
-        <Text style={styles.optionText}>Log Out</Text>
-      </TouchableOpacity>
-    </View>
+    <Container>
+      <Header>
+        <Title>Settings</Title>
+      </Header>
+      <Option onPress={() => console.log('Account Settings')}>
+        <OptionText>Account Settings</OptionText>
+      </Option>
+      <Option onPress={() => console.log('Notifications')}>
+        <OptionText>Notifications</OptionText>
+      </Option>
+      <Option onPress={() => console.log('Privacy')}>
+        <OptionText>Privacy</OptionText>
+      </Option>
+      <Option onPress={() => console.log('Security')}>
+        <OptionText>Security</OptionText>
+      </Option>
+      <Option onPress={() => console.log('Help & Support')}>
+        <OptionText>Help & Support</OptionText>
+      </Option>
+      <Option onPress={() => console.log('Log Out')}>
+        <OptionText>Log Out</OptionText>
+      </Option>
+    </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  header: {
-    padding: 20,
-    borderBottomWidth: 1,
-    borderColor: '#ddd',
-    marginTop: 20,
-  },
-  title: {
-    fontSize: 23,
-    fontWeight: 'bold',
-  },
-  option: {
-    paddingVertical: 18,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderColor: '#ddd',
-  },
-  optionText: {
-    fontSize: 18,
-  },
-});
+const Container = styled.View`
+  flex: 1;
+  background-color: #fff;
+`;
+
+const Header = styled.View`
+  padding: 20px;
+  border-bottom-width: 1px;
+  border-color: #ddd;
+  margin-top: 20px;
+`;
+
+const Title = styled.Text`
+  font-size: 23px;
+  font-weight: bold;
+`;
+
+const Option = styled.TouchableOpacity`
+  padding-vertical: 18px;
+  padding-horizontal: 20px;
+  border-bottom-width: 1px;
+  border-color: #ddd;
+`;
+
+const OptionText = styled.Text`
+  font-size: 18px;
+`;
 
 export default SettingsScreen;

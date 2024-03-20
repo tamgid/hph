@@ -58,12 +58,14 @@ const Comment = ({ navigation }) => {
         value={comment}
         onChangeText={text => setComment(text)}
       />
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Submit</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.submitButton} onPress={() => navigation.navigate('CommentList')}>
-        <Text style={styles.submitButtonText}>Display</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.displayButton} onPress={() => navigation.navigate('CommentList')}>
+          <Text style={styles.buttonText}>Display</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -82,12 +84,24 @@ const styles = StyleSheet.create({
   commentInput: {
     height: 100,
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
   submitButton: {
-    backgroundColor: 'blue',
+    backgroundColor: '#3498db',
     paddingVertical: 15,
     borderRadius: 5,
+    width: '48%', // Adjust button width as needed
   },
-  submitButtonText: {
+  displayButton: {
+    backgroundColor: '#3498db',
+    paddingVertical: 15,
+    borderRadius: 5,
+    width: '48%', // Adjust button width as needed
+  },
+  buttonText: {
     color: 'white',
     textAlign: 'center',
     fontSize: 16,
