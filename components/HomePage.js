@@ -82,7 +82,7 @@ const HomePage = ({ navigation }) => {
   ).current;
 
   const buttonData = [
-    { id: 1, text: "Check Health", icon: "heartbeat", screen: "CheckHealth" },
+    { id: 1, text: "Check Health", icon: "heartbeat", screen: "HealthPredict" },
     { id: 2, text: "React Review", icon: "thumbs-up", screen: "RatingList" },
     { id: 3, text: "About HPH", icon: "info-circle", screen: "About" },
     { id: 4, text: "Rate this App", icon: "star", screen: "Rating" },
@@ -210,18 +210,6 @@ const HomePage = ({ navigation }) => {
             />
             <Text style={styles.sidebarOptionText}>Upload</Text>
           </TouchableOpacity> */}
-          <TouchableOpacity
-            style={styles.sidebarOption}
-            onPress={() => navigation.navigate("Comment")}
-          >
-            <Icon
-              name="comment"
-              size={20}
-              color="#333"
-              style={styles.sidebarOptionIcon}
-            />
-            <Text style={styles.sidebarOptionText}>Comment</Text>
-          </TouchableOpacity>
           {/* <TouchableOpacity
             style={styles.sidebarOption}
             onPress={() => navigation.navigate("ReactPage")}
@@ -271,7 +259,7 @@ const styles = StyleSheet.create({
   },
   squareButton: {
     width: "44%", // Adjust as needed for spacing
-    height: "20%",   
+    height: "19 %",   
     backgroundColor: "#4681f4", // You can change the color
     justifyContent: "center",
     alignItems: "center",

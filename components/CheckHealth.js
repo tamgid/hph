@@ -5,51 +5,44 @@ import {
   TextInput,
   StyleSheet,
   ScrollView,
+  Alert,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
 const CheckHealth = () => {
   // State for form inputs
+  const [age, setAge] = useState("");
   const [sex, setSex] = useState("");
-  const [ageCategory, setAgeCategory] = useState("");
-  const [bmi, setBMI] = useState("");
-  const [smoking, setSmoking] = useState("");
-  const [alcoholDrinking, setAlcoholDrinking] = useState("");
-  const [stroke, setStroke] = useState("");
-  const [physicalHealth, setPhysicalHealth] = useState("");
-  const [mentalHealth, setMentalHealth] = useState("");
-  const [diffWalking, setDiffWalking] = useState("");
-  const [race, setRace] = useState("");
-  const [diabetic, setDiabetic] = useState("");
-  const [physicalActivity, setPhysicalActivity] = useState("");
-  const [genHealth, setGenHealth] = useState("");
-  const [sleepTime, setSleepTime] = useState("");
-  const [asthma, setAsthma] = useState("");
-  const [kidneyDisease, setKidneyDisease] = useState("");
-  const [skinCancer, setSkinCancer] = useState("");
+  const [cp, setCp] = useState("");
+  const [trestbps, setTrestbps] = useState("");
+  const [chol, setChol] = useState("");
+  const [fbs, setFbs] = useState("");
+  const [restecg, setRestecg] = useState("");
+  const [thalach, setThalach] = useState("");
+  const [exang, setExang] = useState("");
+  const [oldpeak, setOldpeak] = useState("");
+  const [slope, setSlope] = useState("");
+  const [ca, setCa] = useState("");
+  const [thal, setThal] = useState("");
 
   const handlePredict = () => {
     // Logic for health prediction based on the form data
     // You can implement your prediction logic here
     // For now, let's just log the form data
     console.log({
+      age,
       sex,
-      ageCategory,
-      bmi,
-      smoking,
-      alcoholDrinking,
-      stroke,
-      physicalHealth,
-      mentalHealth,
-      diffWalking,
-      race,
-      diabetic,
-      physicalActivity,
-      genHealth,
-      sleepTime,
-      asthma,
-      kidneyDisease,
-      skinCancer,
+      cp,
+      trestbps,
+      chol,
+      fbs,
+      restecg,
+      thalach,
+      exang,
+      oldpeak,
+      slope,
+      ca,
+      thal,
     });
   };
 
@@ -63,6 +56,7 @@ const CheckHealth = () => {
 
       {/* Form Inputs */}
       <ScrollView style={styles.formContainer}>
+
         {/* Sex */}
         <Picker
           selectedValue={sex}
@@ -70,185 +64,128 @@ const CheckHealth = () => {
           style={styles.input}
         >
           <Picker.Item label="Select Sex" value="" />
-          <Picker.Item label="Male" value="Male" />
-          <Picker.Item label="Female" value="Female" />
+          <Picker.Item label="Male" value="1" />
+          <Picker.Item label="Female" value="0" />
         </Picker>
 
-        {/* Age Category */}
+        {/* Chest Pain Type */}
         <Picker
-          selectedValue={ageCategory}
-          onValueChange={(itemValue) => setAgeCategory(itemValue)}
+          selectedValue={cp}
+          onValueChange={(itemValue) => setCp(itemValue)}
           style={styles.input}
         >
-          <Picker.Item label="Select Age Category" value="" />
-          <Picker.Item label="18-24" value="18-24" />
-          <Picker.Item label="25-29" value="25-29" />
-          <Picker.Item label="30-34" value="30-34" />
-          <Picker.Item label="35-39" value="35-39" />
-          <Picker.Item label="40-44" value="40-44" />
-          <Picker.Item label="45-49" value="45-49" />
-          <Picker.Item label="50-54" value="50-54" />
-          <Picker.Item label="55-59" value="55-59" />
-          <Picker.Item label="60-64" value="60-64" />
-          <Picker.Item label="65-69" value="65-69" />
-          <Picker.Item label="70-74" value="70-74" />
-          <Picker.Item label="75-79" value="75-79" />
-          <Picker.Item label="80 or older" value="80 or older" />
-        </Picker>
-
-        {/* Smoking */}
-        <Picker
-          selectedValue={smoking}
-          onValueChange={(itemValue) => setSmoking(itemValue)}
-          style={styles.input}
-        >
-          <Picker.Item label="Do you smoke?" value="" />
-          <Picker.Item label="Yes" value="Yes" />
-          <Picker.Item label="No" value="No" />
+          <Picker.Item label="Chest Pain type?" value="" />
+          <Picker.Item label="Typical angina" value="0" />
+          <Picker.Item label="Atypical angina" value="1" />
+          <Picker.Item label="Non-Anginal pain" value="2" />
+          <Picker.Item label="Asymptomatic" value="3" />
         </Picker>
 
         <Picker
-          selectedValue={alcoholDrinking}
-          onValueChange={(itemValue) => setAlcoholDrinking(itemValue)}
+          selectedValue={fbs}
+          onValueChange={(itemValue) => setFbs(itemValue)}
           style={styles.input}
         >
-          <Picker.Item label="Do you drink alcohol?" value="" />
-          <Picker.Item label="Yes" value="Yes" />
-          <Picker.Item label="No" value="No" />
+          <Picker.Item label="Fasting Blood Sugar? 120 mg/dl" value="" />
+          <Picker.Item label="True" value="1" />
+          <Picker.Item label="False" value="0" />
         </Picker>
 
         <Picker
-          selectedValue={stroke}
-          onValueChange={(itemValue) => setStroke(itemValue)}
+          selectedValue={restecg}
+          onValueChange={(itemValue) => setRestecg(itemValue)}
           style={styles.input}
         >
-          <Picker.Item label="Do you stroke?" value="" />
-          <Picker.Item label="Yes" value="Yes" />
-          <Picker.Item label="No" value="No" />
+          <Picker.Item label="Resting Electrocardiographic results?" value="" />
+          <Picker.Item label="Normal" value="0" />
+          <Picker.Item label="Mild to Moderate Abnormalities" value="1" />
+          <Picker.Item label="Significant Abnormalities" value="2" />
         </Picker>
 
         <Picker
-          selectedValue={diffWalking}
-          onValueChange={(itemValue) => setDiffWalking(itemValue)}
+          selectedValue={exang}
+          onValueChange={(itemValue) => setExang(itemValue)}
           style={styles.input}
         >
-          <Picker.Item label="Do you have difficulty of walking?" value="" />
-          <Picker.Item label="Yes" value="Yes" />
-          <Picker.Item label="No" value="No" />
+          <Picker.Item label="Exercise Induced Angina?" value="" />
+          <Picker.Item label="Yes" value="1" />
+          <Picker.Item label="No" value="0" />
         </Picker>
 
         <Picker
-          selectedValue={race}
-          onValueChange={(itemValue) => setRace(itemValue)}
+          selectedValue={slope}
+          onValueChange={(itemValue) => setSlope(itemValue)}
           style={styles.input}
         >
-          <Picker.Item label="Select Race?" value="" />
-          <Picker.Item label="White" value="White" />
-          <Picker.Item label="Black" value="Black" />
-          <Picker.Item
-            label="American Indian/Alaskan Native"
-            value="American Indian/Alaskan Native"
-          />
-          <Picker.Item label="Hispanic" value="Hispanic" />
-          <Picker.Item label="Other" value="Other" />
+          <Picker.Item label="Slope of the Peak Exercise ST Segment" value="" />
+          <Picker.Item label="Upsloping (Positive slope)" value="0" />
+          <Picker.Item label="Flat (Flat ST segment)" value="1" />
+          <Picker.Item label="Downsloping (Negative slope)" value="2" />
         </Picker>
 
         <Picker
-          selectedValue={diabetic}
-          onValueChange={(itemValue) => setDiabetic(itemValue)}
+          selectedValue={ca}
+          onValueChange={(itemValue) => setCa(itemValue)}
           style={styles.input}
         >
-          <Picker.Item label="Do you have diabetics?" value="" />
-          <Picker.Item label="Yes" value="Yes" />
-          <Picker.Item label="No" value="No" />
-          <Picker.Item
-            label="borderline diabetes"
-            value="borderline diabetes"
-          />
+          <Picker.Item label="Number of major Vessels" value="" />
+          <Picker.Item label="No major vessels" value="0" />
+          <Picker.Item label="One major vessel" value="1" />
+          <Picker.Item label="Two major vessels" value="2" />
+          <Picker.Item label="Three major vessels" value="3" />
         </Picker>
 
         <Picker
-          selectedValue={physicalActivity}
-          onValueChange={(itemValue) => setPhysicalActivity(itemValue)}
+          selectedValue={thal}
+          onValueChange={(itemValue) => setThal(itemValue)}
           style={styles.input}
         >
-          <Picker.Item label="Do you perform Physical Activity?" value="" />
-          <Picker.Item label="Yes" value="Yes" />
-          <Picker.Item label="No" value="No" />
+          <Picker.Item label="Thallium Stress Test" value="" />
+          <Picker.Item label="Totally normal" value="0" />
+          <Picker.Item label="Normal" value="1" />
+          <Picker.Item label="Fixed Defect" value="2" />
+          <Picker.Item label="Reversable Defect" value="3" />
         </Picker>
 
-        <Picker
-          selectedValue={genHealth}
-          onValueChange={(itemValue) => setGenHealth(itemValue)}
-          style={styles.input}
-        >
-          <Picker.Item label="What is general health condition?" value="" />
-          <Picker.Item label="Very good" value="Very good" />
-          <Picker.Item label="Fair" value="Fair" />
-          <Picker.Item label="Good" value="Good" />
-          <Picker.Item label="Poor" value="Poor" />
-          <Picker.Item label="Excellent" value="Excellent" />
-        </Picker>
-
-        <Picker
-          selectedValue={asthma}
-          onValueChange={(itemValue) => setAsthma(itemValue)}
-          style={styles.input}
-        >
-          <Picker.Item label="Do you have asthma?" value="" />
-          <Picker.Item label="Yes" value="Yes" />
-          <Picker.Item label="No" value="No" />
-        </Picker>
-
-        <Picker
-          selectedValue={kidneyDisease}
-          onValueChange={(itemValue) => setKidneyDisease(itemValue)}
-          style={styles.input}
-        >
-          <Picker.Item label="Do you have kidney disease?" value="" />
-          <Picker.Item label="Yes" value="Yes" />
-          <Picker.Item label="No" value="No" />
-        </Picker>
-
-        <Picker
-          selectedValue={skinCancer}
-          onValueChange={(itemValue) => setSkinCancer(itemValue)}
-          style={styles.input}
-        >
-          <Picker.Item label="Do you have skin cancer?" value="" />
-          <Picker.Item label="Yes" value="Yes" />
-          <Picker.Item label="No" value="No" />
-        </Picker>
-
-        {/* BMI */}
+        {/* Age */}
         <TextInput
-          placeholder="BMI"
-          value={bmi}
-          onChangeText={(text) => setBMI(text)}
+          placeholder="Age"
+          value={age}
+          onChangeText={(text) => setAge(text)}
+          keyboardType="numeric"
+          style={styles.input}
+        />
+
+        {/* Resting Blood Pressure */}
+        <TextInput
+          placeholder="Resting Blood Pressure"
+          value={trestbps}
+          onChangeText={(text) => setTrestbps(text)}
+          keyboardType="numeric"
+          style={styles.input}
+        />
+
+        {/* Serum Cholestoral in mg/dl */}
+        <TextInput
+          placeholder="Serum Cholestoral in mg/dl"
+          value={chol}
+          onChangeText={(text) => setChol(text)}
           keyboardType="numeric"
           style={styles.input}
         />
 
         <TextInput
-          placeholder="Sleep Time"
-          value={sleepTime}
-          onChangeText={(text) => setSleepTime(text)}
+          placeholder="Maximum Heart rate Achieved"
+          value={thalach}
+          onChangeText={(text) => setThalach(text)}
           keyboardType="numeric"
           style={styles.input}
         />
 
         <TextInput
-          placeholder="Physical Health"
-          value={physicalHealth}
-          onChangeText={(text) => setPhysicalHealth(text)}
-          keyboardType="numeric"
-          style={styles.input}
-        />
-
-        <TextInput
-          placeholder="Mental Health"
-          value={mentalHealth}
-          onChangeText={(text) => setMentalHealth(text)}
+          placeholder="ST depression induced by exercise relative to rest"
+          value={oldpeak}
+          onChangeText={(text) => setOldpeak(text)}
           keyboardType="numeric"
           style={styles.input}
         />
@@ -287,10 +224,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    height: 40,
+    height: 50,
     borderColor: "gray",
     borderWidth: 1,
-    marginBottom: 10,
+    marginBottom: 15,
     paddingHorizontal: 10,
   },
   infoMessage: {
@@ -304,7 +241,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 5,
     marginTop: 20,
-    marginBottom: 230,
+    marginBottom: 100,
   },
   buttonText: {
     color: "white",

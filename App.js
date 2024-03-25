@@ -10,12 +10,10 @@ import Register from "./components/Register";
 import HomePage from "./components/HomePage";
 import ForgotPassword from "./components/ForgotPassword";
 import CheckHealth from "./components/CheckHealth";
-import Comment from "./components/Comment";
 import GraphQl from "./components/GraphQl";
 import About from "./components/About";
 import Upload from "./components/Upload";
 import Rating from "./components/Rating";
-import CommentList from "./components/CommentList";
 import EmailVerification from "./components/EmailVerification";
 import RatingList from "./components/RatingList";
 import PatientInfo from "./components/PatientInfo";
@@ -26,6 +24,7 @@ import { firebase } from "./config";
 import Card from "./components/Card";
 import WalletCard from "./components/WalletCard";
 import ChatBot1 from "./components/ChatBot1";
+import HealthPredict from "./components/HealthPredict";
 
 import "react-native-gesture-handler";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -106,12 +105,10 @@ function StackNavigator() {
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
       <Stack.Screen name="HomePage" component={HomePage} />
       <Stack.Screen name="CheckHealth" component={CheckHealth} />
-      <Stack.Screen name="Comment" component={Comment} />
       <Stack.Screen name="GraphQl" component={GraphQl} />
       <Stack.Screen name="About" component={About} />
       <Stack.Screen name="Upload" component={Upload} />
       <Stack.Screen name="Rating" component={Rating} />
-      <Stack.Screen name="CommentList" component={CommentList} />
       <Stack.Screen name="EmailVerification" component={EmailVerification} />
       <Stack.Screen name="RatingList" component={RatingList} />
       <Stack.Screen name="PatientInfo" component={PatientInfo} />
@@ -120,6 +117,7 @@ function StackNavigator() {
       <Stack.Screen name="Card" component={Card} />
       <Stack.Screen name="WalletCard" component={WalletCard} />
       <Stack.Screen name="ChatBot1" component={ChatBot1} />
+      <Stack.Screen name="HealthPredict" component={HealthPredict} />
     </Stack.Navigator>
   );
 }

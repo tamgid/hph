@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { firebase } from "../config";
 
@@ -14,6 +14,8 @@ const Rating = ({ navigation, route }) => {
   const { email, name } = route.params;
   const [review, setReview] = useState("");
   const [selectedRating, setSelectedRating] = useState(0);
+  const [submittedReview, setSubmittedReview] = useState(null);
+  const [submittedRating, setSubmittedRating] = useState(null);
 
   const handleRatingPress = (rating) => {
     setSelectedRating(rating);
@@ -38,6 +40,8 @@ const Rating = ({ navigation, route }) => {
       })
       .then(() => {
         console.log("Rating submitted successfully.");
+        setSubmittedReview(review);
+        setSubmittedRating(selectedRating);
       })
       .catch((error) => {
         console.error("Error submitting rating:", error);
@@ -45,6 +49,24 @@ const Rating = ({ navigation, route }) => {
     setReview("");
     setSelectedRating("");
   };
+  useEffect(() => {
+    // Fetch the review from Firestore when the component mounts
+    const fetchReview = async () => {
+      try {
+        const ratingRef = firebase.firestore().collection("ratings").doc(email);
+        const snapshot = await ratingRef.get();
+        if (snapshot.exists) {
+          const data = snapshot.data();
+          setSubmittedReview(data.review); // Set the review fetched from Firestore
+          setSubmittedRating(data.rating);
+        }
+      } catch (error) {
+        console.error("Error fetching review:", error);
+      }
+    };
+
+    fetchReview();
+  }, [email]);
 
   return (
     <View style={styles.container}>
@@ -53,7 +75,7 @@ const Rating = ({ navigation, route }) => {
         <Text style={styles.profileName}>{name}</Text>
       </View>
       <Text style={styles.reviewInfo}>
-        Reviews are public and include your account and device info.
+        Reviews are public and include your account and device information.
       </Text>
       <View style={styles.ratingContainer}>
         {[1, 2, 3, 4, 5].map((rating) => (
@@ -64,7 +86,7 @@ const Rating = ({ navigation, route }) => {
           >
             <Ionicons
               name={selectedRating >= rating ? "star" : "star-outline"}
-              size={40}
+              size={35}
               color={selectedRating >= rating ? "blue" : "gray"}
             />
           </TouchableOpacity>
@@ -81,7 +103,10 @@ const Rating = ({ navigation, route }) => {
         <Text style={styles.submitButtonText}>Submit Rating</Text>
       </TouchableOpacity>
       {/* I need to navigate this page to RatingList page. But it is temporarily navigated to ReactPage */}
-      <TouchableOpacity style={styles.ratingsButton} onPress={() => navigation.navigate("RatingList",{name,email})}>
+      <TouchableOpacity
+        style={styles.ratingsButton}
+        onPress={() => navigation.navigate("RatingList", { name, email })}
+      >
         <Text style={styles.ratingsButtonText}>Ratings and reviews</Text>
         <Ionicons
           name="chevron-forward"
@@ -90,6 +115,28 @@ const Rating = ({ navigation, route }) => {
           style={styles.arrowIcon}
         />
       </TouchableOpacity>
+      {submittedRating && (
+        <View style={styles.beforeContainer}>
+          <Text style={styles.thankMessage}>
+          We Greatly Appreciate To Rate Our App.Thanks
+          </Text>
+          <View style={styles.starContainer}>
+            {[...Array(5).keys()].map((star) => (
+              <Ionicons
+                key={star}
+                name={star < submittedRating ? "star" : "star-outline"}
+                size={20}
+                color={star < submittedRating ? "blue" : "gray"}
+              />
+            ))}
+          </View>
+        </View>
+      )}
+      {submittedReview && (
+        <View style={styles.commentItem}>
+          <Text style={styles.submittedReviewText}>{submittedReview}</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -104,43 +151,54 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
+  starContainer: {
+    flexDirection: "row",
+    marginRight: 10,
+    marginTop: 10,
+  },
   profileImage: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     borderRadius: 50,
     marginRight: 10,
   },
   profileName: {
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: "bold",
   },
   reviewInfo: {
-    fontSize: 16,
+    fontSize: 15,
     color: "#888",
-    marginBottom: 10,
+    marginBottom: 5,
   },
+  thankMessage:{
+    marginTop: 20,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  beforeContainer: {},
   ratingContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   starButton: {
     padding: 5,
   },
   reviewInput: {
-    height: 100,
-    borderWidth: 1,
+    height: 80,
+    borderWidth: 1.5,
     borderColor: "#ccc",
-    borderRadius: 5,
+    borderRadius: 3,
     padding: 10,
     marginBottom: 25,
-    fontSize: 17,
+    fontSize: 15,
   },
   submitButton: {
     backgroundColor: "#3498db",
     padding: 15,
     borderRadius: 5,
-    marginBottom:20,
+    marginBottom: 10,
   },
   submitButtonText: {
     color: "white",
@@ -157,11 +215,18 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   ratingsButtonText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
   },
   arrowIcon: {
     marginLeft: "auto",
+  },
+  commentItem: {
+    marginBottom: 20,
+    marginTop: 10,
+  },
+  submittedReviewText: {
+    fontSize: 15,
   },
 });
 

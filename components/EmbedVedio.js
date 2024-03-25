@@ -1,30 +1,66 @@
-import React from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
-import { WebView } from "react-native-webview";
+import { ScrollView, Text, Button, Alert, View, StyleSheet } from "react-native";
+import React, { useState, useCallback, useRef } from "react";
+import YoutubePlayer from "react-native-youtube-iframe";
 
-const EmbedVideo = () => {
+const EmbedVedio = () => {
+  const [playing, setPlaying] = useState(false);
+  const onStateChange = useCallback((state) => {
+    if (state === "ended") {
+      setPlaying(false);
+      Alert.alert("Video has finished playing");
+    }
+  }, []);
+
+  const togglePlaying = useCallback(() => {
+    setPlaying((prev) => !prev);
+  }, []);
   return (
     <ScrollView style={styles.container}>
-      <WebView
-        source={{ uri: "https://www.youtube.com/watch?v=aXDaBuPSvJs" }} // Replace this with your video URL
-        style={styles.video}
+      <View style={styles.subContainer}>
+      <Text style={styles.heading}>How to check is your heart good?</Text>
+      <YoutubePlayer
+        height={300}
+        play={playing}
+        videoId={"CjpR9UbiF0E"}
+        onChangeState={onStateChange}
       />
-      <WebView
-        source={{ uri: "https://www.youtube.com/watch?v=mhYeO2fwSps" }} // Replace this with your video URL
-        style={styles.video}
+      </View>
+      <View style={styles.subContainer}>
+      <Text style={styles.heading}>How to check is your heart good?</Text>
+      <YoutubePlayer
+        height={300}
+        play={playing}
+        videoId={"CjpR9UbiF0E"}
+        onChangeState={onStateChange}
       />
-      <WebView
-        source={{ uri: "https://www.youtube.com/watch?v=KPKLq-LQjbc" }} // Replace this with your video URL
-        style={styles.video}
+      </View>
+      <View style={styles.subContainer}>
+      <Text style={styles.heading}>How to check is your heart good?</Text>
+      <YoutubePlayer
+        height={300}
+        play={playing}
+        videoId={"CjpR9UbiF0E"}
+        onChangeState={onStateChange}
       />
-      <WebView
-        source={{ uri: "https://www.youtube.com/watch?v=Lj7gM6eIDu0" }} // Replace this with your video URL
-        style={styles.video}
+      </View>
+      <View style={styles.subContainer}>
+      <Text style={styles.heading}>How to check is your heart good?</Text>
+      <YoutubePlayer
+        height={300}
+        play={playing}
+        videoId={"CjpR9UbiF0E"}
+        onChangeState={onStateChange}
       />
-      <WebView
-        source={{ uri: "https://www.youtube.com/watch?v=DUaxt8OlT3o" }} // Replace this with your video URL
-        style={styles.video}
+      </View>
+      <View style={styles.subContainer}>
+      <Text style={styles.heading}>How to check is your heart good?</Text>
+      <YoutubePlayer
+        height={300}
+        play={playing}
+        videoId={"CjpR9UbiF0E"}
+        onChangeState={onStateChange}
       />
+      </View>
     </ScrollView>
   );
 };
@@ -32,11 +68,16 @@ const EmbedVideo = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f0f0f0'
   },
-  video: {
-    flex: 1,
-    aspectRatio: 1 / 1, // You can adjust the aspect ratio as needed
+  subContainer:{
+    marginBottom: 5,
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
 });
 
-export default EmbedVideo;
+export default EmbedVedio;

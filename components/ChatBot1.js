@@ -26,7 +26,7 @@ const ChatBot1 = () => {
       const response = await axios.post(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
       {
         contents: updatedChat,
-      }
+      } 
       );
       console.log("Gemini Pro API Response:",response.data);
 

@@ -17,6 +17,7 @@ const PatientInfo = ({ navigation }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [originalPatients, setOriginalPatients] = useState([]);
 
   useEffect(() => {
     // Fetch all documents from the users collection
@@ -31,7 +32,7 @@ const PatientInfo = ({ navigation }) => {
           const healthData = await fetchHealthCondition(doc.data().email);
           const updatedPatient = {
             ...userDataItem,
-            ageCategory: healthData?.ageCategory || "",
+            age: healthData?.age || "",
             sex: healthData?.sex || "",
             healthCondition: healthData?.healthCondition || "",
             email: healthData?.email || "",
@@ -41,6 +42,7 @@ const PatientInfo = ({ navigation }) => {
         }
 
         setPatients(userData);
+        setOriginalPatients(userData); // Save original data
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -84,10 +86,15 @@ const PatientInfo = ({ navigation }) => {
 
   const handleSearch = () => {
     // Filter patients based on search query
-    const filteredPatients = patients.filter((patient) =>
+    const filteredPatients = originalPatients.filter((patient) =>
       patient.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setPatients(filteredPatients);
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setPatients(originalPatients); // Reset patients to original data
   };
 
   return (
@@ -101,15 +108,18 @@ const PatientInfo = ({ navigation }) => {
           onChangeText={(value) => setPerPage(Number(value))}
           keyboardType="numeric"
         />
-        <Text>entries</Text>
+        <Text>Entries </Text>
         <TextInput
           style={styles.searchInput}
           value={searchQuery}
           onChangeText={setSearchQuery}
           placeholder="Search by name"
         />
-        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-          <Text>Search</Text>
+        <TouchableOpacity
+          style={styles.searchButton}
+          onPress={searchQuery ? handleSearch : handleClearSearch}
+        >
+          <Text>{searchQuery ? "Search" : "Clear"}</Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -156,9 +166,10 @@ const PatientInfo = ({ navigation }) => {
           <View style={styles.modalContent}>
             <Text>Name: {selectedPatient?.name}</Text>
             <Text>Email: {selectedPatient?.email}</Text>
-            <Text>Age Category: {selectedPatient?.ageCategory}</Text>
-            <Text>Sex: {selectedPatient?.sex}</Text>
-            <Text>Location: {selectedPatient?.location}</Text>
+            <Text>Age: {selectedPatient?.age}</Text>
+            <Text>Sex: {selectedPatient?.sex === 1 ? 'Male' : 'Female'}</Text>
+            <Text>Division: {selectedPatient?.division}</Text>
+            <Text>District: {selectedPatient?.district}</Text>
             <Text>Health Condition: {selectedPatient?.healthCondition}</Text>
             <Text>Last Visit: {selectedPatient?.lastVisit}</Text>
             <TouchableOpacity

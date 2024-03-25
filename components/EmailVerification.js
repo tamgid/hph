@@ -7,7 +7,7 @@ const EmailVerification = ({ navigation, route }) => {
     const [email, setEmail] = useState("");
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const { name, username, password, phone, location, dateOfBirth } = route.params;
+    const { name, username, password, phone, division, district,  dateOfBirth } = route.params;
 
   const handleSignUp = async () => {
 
@@ -38,7 +38,8 @@ const EmailVerification = ({ navigation, route }) => {
         username: username,
         phone: phone,
         dateOfBirth: dateOfBirth,
-        location: location,
+        division: division,
+        district: district,
         // Add more fields as needed
       });
 
