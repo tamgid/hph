@@ -1,46 +1,49 @@
 import { StatusBar } from "expo-status-bar";
+import 'react-native-reanimated'; // Import Reanimated
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { GestureHandlerRootView } from 'react-native-gesture-handler'; // Import GestureHandlerRootView
 
-import SignIn from "./components/SignIn";
-import FrontPage from "./components/FrontPage";
-import Register from "./components/Register";
-import HomePage from "./components/HomePage";
-import ForgotPassword from "./components/ForgotPassword";
-import CheckHealth from "./components/CheckHealth";
-import GraphQl from "./components/GraphQl";
-import About from "./components/About";
-import Upload from "./components/Upload";
-import Rating from "./components/Rating";
-import EmailVerification from "./components/EmailVerification";
-import RatingList from "./components/RatingList";
-import PatientInfo from "./components/PatientInfo";
-import EmbedVedio from "./components/EmbedVedio";
-import Map from "./components/Map";
+import SignIn from "./pages/SignIn";
+import FrontPage from "./pages/FrontPage";
+import Register from "./pages/Register";
+import HomePage from "./pages/HomePage";
+import ForgotPassword from "./pages/ForgotPassword";
+import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
+import TermCondition from "./pages/TermCondition";
+import CheckHealth from "./pages/CheckHealth";
+import PredictionResult from "./pages/PredictionResult";
+import Upload from "./pages/Upload";
+import FullScreenImage from "./pages/FullScreenImage";
+import EmailVerification from "./pages/EmailVerification";
+import RatingList from "./pages/RatingList";
+import PatientInfo from "./pages/PatientInfo";
+import EmbedVideo from "./pages/EmbedVideo";
+import Map from "./pages/Map";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { firebase } from "./config";
-import Card from "./components/Card";
-import WalletCard from "./components/WalletCard";
-import ChatBot1 from "./components/ChatBot1";
+import ChatBot from "./pages/ChatBot";
 import HealthPredict from "./components/HealthPredict";
+import CrystalReport from "./pages/CrystalReport";
 
 import "react-native-gesture-handler";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import ProfileScreen from "./components/ProfileScreen";
+import ProfileScreen from "./pages/ProfileScreen";
 import SettingsScreen from "./components/SettingsScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 // Initialize Apollo Client
 const client = new ApolloClient({
-  uri: 'https://countries.trevorblades.com/graphql',
-  cache: new InMemoryCache()
+  uri: "https://countries.trevorblades.com/graphql",
+  cache: new InMemoryCache(),
 });
 
 function TabNavigator() {
@@ -63,7 +66,6 @@ function TabNavigator() {
       })}
     >
       <Tab.Screen name="home" component={StackNavigator} />
-      <Tab.Screen name="profile" component={ProfileScreen} />
       <Tab.Screen name="settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
@@ -105,19 +107,21 @@ function StackNavigator() {
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
       <Stack.Screen name="HomePage" component={HomePage} />
       <Stack.Screen name="CheckHealth" component={CheckHealth} />
-      <Stack.Screen name="GraphQl" component={GraphQl} />
-      <Stack.Screen name="About" component={About} />
+      <Stack.Screen name="PredictionResult" component={PredictionResult} />
       <Stack.Screen name="Upload" component={Upload} />
-      <Stack.Screen name="Rating" component={Rating} />
+      <Stack.Screen name="FullScreenImage" component={FullScreenImage} />
       <Stack.Screen name="EmailVerification" component={EmailVerification} />
       <Stack.Screen name="RatingList" component={RatingList} />
       <Stack.Screen name="PatientInfo" component={PatientInfo} />
-      <Stack.Screen name="EmbedVedio" component={EmbedVedio} />
+      <Stack.Screen name="EmbedVideo" component={EmbedVideo} />
       <Stack.Screen name="Map" component={Map} />
-      <Stack.Screen name="Card" component={Card} />
-      <Stack.Screen name="WalletCard" component={WalletCard} />
-      <Stack.Screen name="ChatBot1" component={ChatBot1} />
+      <Stack.Screen name="ChatBot" component={ChatBot} />
+      <Stack.Screen name="CrystalReport" component={CrystalReport} />
       <Stack.Screen name="HealthPredict" component={HealthPredict} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="AboutUs" component={AboutUs} />
+      <Stack.Screen name="ContactUs" component={ContactUs} />
+      <Stack.Screen name="TermCondition" component={TermCondition} />
     </Stack.Navigator>
   );
 }
@@ -125,9 +129,9 @@ function StackNavigator() {
 export default function App() {
   return (
     <ApolloProvider client={client}>
-    <NavigationContainer>
-      <StackNavigator />
-    </NavigationContainer>
+      <NavigationContainer>
+        <StackNavigator />
+      </NavigationContainer>
     </ApolloProvider>
   );
 }

@@ -11,72 +11,98 @@ import { Ionicons } from "@expo/vector-icons";
 import { firebase } from "../config";
 
 const Rating = ({ navigation, route }) => {
-  const { email, name } = route.params;
+  const { email } = route.params; // You can remove 'name' if you don't need it anymore
   const [review, setReview] = useState("");
   const [selectedRating, setSelectedRating] = useState(0);
   const [submittedReview, setSubmittedReview] = useState(null);
   const [submittedRating, setSubmittedRating] = useState(null);
+  const [userDetails, setUserDetails] = useState(null);
 
   const handleRatingPress = (rating) => {
     setSelectedRating(rating);
   };
 
-  const submitRating = () => {
-    // Get the current date and time
+  const submitRating = async () => {
     const currentDate = new Date();
 
-    // Save the selected rating, review, and current date to Firestore
-    firebase
-      .firestore()
-      .collection("ratings")
-      .doc(email)
-      .set({
-        email: email,
-        rating: selectedRating,
-        review: review,
-        date: currentDate.toISOString(), // Convert date to string format for storage
-        likes: 0, // Default value for likes
-        dislikes: 0, // Default value for dislikes
-      })
-      .then(() => {
-        console.log("Rating submitted successfully.");
-        setSubmittedReview(review);
-        setSubmittedRating(selectedRating);
-      })
-      .catch((error) => {
-        console.error("Error submitting rating:", error);
-      });
+    try {
+      const currentUser = firebase.auth().currentUser; // Get current authenticated user
+      if (currentUser) {
+        const userDoc = await firebase.firestore().collection("users").doc(currentUser.uid).get();
+
+        if (userDoc.exists) {
+          const userData = userDoc.data(); // Fetch user details
+          setUserDetails(userData); // Set user details to state
+
+          // Save the selected rating, review, and current date to Firestore
+          await firebase
+            .firestore()
+            .collection("ratings")
+            .doc(userData.email) // Use email for document ID
+            .set({
+              name: userData.name,
+              email: userData.email,
+              profileImage: userData.profileImage,
+              rating: selectedRating,
+              review: review,
+              date: currentDate.toISOString(), // Convert date to string format for storage
+              likes: 0, // Default value for likes
+              dislikes: 0, // Default value for dislikes
+            });
+
+          // Update state after successful submission
+          setSubmittedReview(review);
+          setSubmittedRating(selectedRating);
+          console.log("Rating submitted successfully.");
+        } else {
+          console.log("No such user!");
+        }
+      }
+    } catch (error) {
+      console.error("Error submitting rating:", error);
+    }
+
+    // Reset the review and rating after submission
     setReview("");
-    setSelectedRating("");
+    setSelectedRating(0);
   };
+
   useEffect(() => {
-    // Fetch the review from Firestore when the component mounts
-    const fetchReview = async () => {
+    const fetchUserDetails = async () => {
       try {
-        const ratingRef = firebase.firestore().collection("ratings").doc(email);
-        const snapshot = await ratingRef.get();
-        if (snapshot.exists) {
-          const data = snapshot.data();
-          setSubmittedReview(data.review); // Set the review fetched from Firestore
-          setSubmittedRating(data.rating);
+        const currentUser = firebase.auth().currentUser;
+        if (currentUser) {
+          const userDoc = await firebase.firestore().collection("users").doc(currentUser.uid).get();
+          if (userDoc.exists) {
+            setUserDetails(userDoc.data());
+          } else {
+            console.log("No such user!");
+          }
         }
       } catch (error) {
-        console.error("Error fetching review:", error);
+        console.error("Error fetching user details:", error);
       }
     };
 
-    fetchReview();
-  }, [email]);
+    fetchUserDetails();
+  }, []);
+
+  // Determine the button color based on review and rating
+  const buttonColor = selectedRating > 0 && review.trim() !== "" ? "#3498db" : "#c7c7c7";
 
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
-        <Image source={require("./User.jpg")} style={styles.profileImage} />
-        <Text style={styles.profileName}>{name}</Text>
+        <Image
+          source={
+            userDetails && userDetails.profileImage
+              ? { uri: userDetails.profileImage }
+              : require("../image/User.jpg") // Default image
+          }
+          style={styles.profileImage}
+        />
+        <Text style={styles.profileName}>{userDetails ? userDetails.name : "Loading..."}</Text>
       </View>
-      <Text style={styles.reviewInfo}>
-        Reviews are public and include your account and device information.
-      </Text>
       <View style={styles.ratingContainer}>
         {[1, 2, 3, 4, 5].map((rating) => (
           <TouchableOpacity
@@ -86,8 +112,8 @@ const Rating = ({ navigation, route }) => {
           >
             <Ionicons
               name={selectedRating >= rating ? "star" : "star-outline"}
-              size={35}
-              color={selectedRating >= rating ? "blue" : "gray"}
+              size={30}
+              color={selectedRating >= rating ? "#01875f" : "#34b88c"}
             />
           </TouchableOpacity>
         ))}
@@ -95,48 +121,13 @@ const Rating = ({ navigation, route }) => {
       <TextInput
         style={styles.reviewInput}
         multiline={true}
-        placeholder="Write your review here..."
+        placeholder="(Required) Tell others what you think"
         value={review}
         onChangeText={setReview}
       />
-      <TouchableOpacity style={styles.submitButton} onPress={submitRating}>
+      <TouchableOpacity style={[styles.submitButton, { backgroundColor: buttonColor }]} onPress={submitRating}>
         <Text style={styles.submitButtonText}>Submit Rating</Text>
       </TouchableOpacity>
-      {/* I need to navigate this page to RatingList page. But it is temporarily navigated to ReactPage */}
-      <TouchableOpacity
-        style={styles.ratingsButton}
-        onPress={() => navigation.navigate("RatingList", { name, email })}
-      >
-        <Text style={styles.ratingsButtonText}>Ratings and reviews</Text>
-        <Ionicons
-          name="chevron-forward"
-          size={24}
-          color="black"
-          style={styles.arrowIcon}
-        />
-      </TouchableOpacity>
-      {submittedRating && (
-        <View style={styles.beforeContainer}>
-          <Text style={styles.thankMessage}>
-          We Greatly Appreciate To Rate Our App.Thanks
-          </Text>
-          <View style={styles.starContainer}>
-            {[...Array(5).keys()].map((star) => (
-              <Ionicons
-                key={star}
-                name={star < submittedRating ? "star" : "star-outline"}
-                size={20}
-                color={star < submittedRating ? "blue" : "gray"}
-              />
-            ))}
-          </View>
-        </View>
-      )}
-      {submittedReview && (
-        <View style={styles.commentItem}>
-          <Text style={styles.submittedReviewText}>{submittedReview}</Text>
-        </View>
-      )}
     </View>
   );
 };
@@ -144,17 +135,10 @@ const Rating = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
   },
   profileContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
-  },
-  starContainer: {
-    flexDirection: "row",
-    marginRight: 10,
-    marginTop: 10,
   },
   profileImage: {
     width: 50,
@@ -166,67 +150,31 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
   },
-  reviewInfo: {
-    fontSize: 15,
-    color: "#888",
-    marginBottom: 5,
-  },
-  thankMessage:{
-    marginTop: 20,
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  beforeContainer: {},
   ratingContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 10,
   },
   starButton: {
-    padding: 5,
+    padding: 15,
   },
   reviewInput: {
-    height: 80,
+    height: 70,
     borderWidth: 1.5,
     borderColor: "#ccc",
     borderRadius: 3,
     padding: 10,
-    marginBottom: 25,
+    marginBottom: 20,
     fontSize: 15,
   },
   submitButton: {
     backgroundColor: "#3498db",
     padding: 15,
     borderRadius: 5,
-    marginBottom: 10,
   },
   submitButtonText: {
     color: "white",
     textAlign: "center",
     fontWeight: "bold",
-  },
-  ratingsButton: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#ddd",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-  },
-  ratingsButtonText: {
-    fontSize: 15,
-    fontWeight: "bold",
-  },
-  arrowIcon: {
-    marginLeft: "auto",
-  },
-  commentItem: {
-    marginBottom: 20,
-    marginTop: 10,
-  },
-  submittedReviewText: {
-    fontSize: 15,
   },
 });
 

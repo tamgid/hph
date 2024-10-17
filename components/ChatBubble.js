@@ -1,50 +1,51 @@
-import React from "react";
-import { View,Text,StyleSheet,TouchableOpacity  } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-const ChatBubble = ({role, text, onSpeech }) => {
-    return(
-        <View 
-            style={[
-                styles.chatItem,
-                role === "user" ? styles.userChatItem : styles.modelChatItem,
-            ]}
-        >
-            <Text style={styles.chatText}>{text}</Text>
-            {role === "model" && (
-                <TouchableOpacity onPress={onSpeech} style={styles.speakerIcon}>
-                    <Ionicons name="volume-high-outline" size={24} color="#fff" />
-                </TouchableOpacity>
-            )}
-        </View>
-    );
+const ChatBubble = ({ role, text, onSpeech }) => {
+  return (
+    <View
+      style={[
+        styles.chatBubble,
+        role === "user" ? styles.userBubble : styles.modelBubble,
+      ]}
+    >
+      <Text
+        style={[
+          styles.chatText,
+          role === "user" ? styles.userText : styles.modelText,
+        ]}
+      >
+        {text}
+      </Text>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-    chatItem:{
-        marginBottom: 10,
-        padding: 10,
-        borderRadius: 10,
-        maxWidth: "70%",
-        position: "relative",
-    },
-    userChatItem:{
-        alignSelf: "flex-end",
-        backgroundColor: "#007AFF",
-    },
-    modelChatItem:{
-        alignSelf: "flex-start",
-        backgroundColor: "#000",
-    },
-    chatText:{
-        fontSize: 16,
-        color: "#fff",
-    },
-    speakerIcon:{
-        position: "absolute",
-        bottom: 5,
-        right: 5,
-    },
+  chatBubble: {
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 10,
+    maxWidth: '90%', // Makes the bubbles wider (you can adjust to your preference)
+    alignSelf: "flex-start", // Default alignment
+  },
+  userBubble: {
+    backgroundColor: "#2d799c", // Change to desired user background color
+    alignSelf: "flex-end", // Align user bubbles to the right
+  },
+  modelBubble: {
+    backgroundColor: "#eeeeee", // Change to desired model response background color
+    alignSelf: "flex-start", // Align model bubbles to the left
+  },
+  chatText: {
+    fontSize: 15,
+  },
+  userText: {
+    color: "#fff", // User text color (white, since the bubble is blue)
+  },
+  modelText: {
+    color: "#333", // Model text color (dark text on light background)
+  },
 });
 
 export default ChatBubble;
