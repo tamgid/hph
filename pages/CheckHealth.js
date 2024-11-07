@@ -403,64 +403,66 @@ const CheckHealth = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 10,
     backgroundColor: "#eeeeee", // Light background for better readability
   },
   heading: {
-    fontSize: 25, // Larger font size for prominence
+    fontSize: 20, // Larger font size for prominence
     fontWeight: "700", // Slightly less bold for a cleaner look
     color: "#34b88c", // Darker color for better contrast
     textAlign: "center", // Center-align for a balanced look
   },
   introText: {
-    fontSize: 17,
+    fontSize: 16,
     color: "#2d799c",
     marginBottom: 25,
-    fontWeight: "400",
     textAlign: "center",
     borderBottomWidth: 1, // Add a bottom border
     borderBottomColor: "#dcdcdc", // Light gray color for the border
     paddingBottom: 10, // Space between text and border
   },
   radioContainer: {
-    marginBottom: 20,
+    marginBottom: 15,
   },
   radioItem: {
-    marginBottom: 20,
+    marginBottom: 15,
   },
   label: {
     fontSize: 15,
-    fontWeight: "bold",
-    marginBottom: 10,
+    fontWeight: "600",
+    marginBottom: 5,
   },
   radioItemLabel: {
     fontSize: 14, // Adjust the size as needed
     color: "#333", // Optionally adjust the color
   },
   textInputContainer: {
-    marginBottom: 80,
+    marginBottom: 50,
+    marginLeft: 10,
+    marginRight: 10,
   },
   inputLabel: {
     fontSize: 15,
-    fontWeight: "bold",
-    marginBottom: 8,
+    fontWeight: "600",
+    marginBottom: 5,
   },
   input: {
-    height: 50,
+    height: 45,
     borderColor: "gray",
     borderWidth: 1,
     paddingHorizontal: 10,
     marginBottom: 15,
+    borderRadius: 5,
   },
   predictButton: {
     backgroundColor: "#3498db",
-    paddingVertical: 15,
+    paddingVertical: 13,
     borderRadius: 5,
     marginTop: 20,
   },
   buttonText: {
     color: "white",
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
   },

@@ -26,13 +26,13 @@ import Map from "./pages/Map";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { firebase } from "./config";
 import ChatBot from "./pages/ChatBot";
-import HealthPredict from "./components/HealthPredict";
 import CrystalReport from "./pages/CrystalReport";
+import EditProfileScreen from "./pages/EditProfileScreen";
+import History from "./pages/History";
 
 import "react-native-gesture-handler";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import ProfileScreen from "./pages/ProfileScreen";
-import SettingsScreen from "./components/SettingsScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const Tab = createMaterialBottomTabNavigator();
@@ -117,11 +117,12 @@ function StackNavigator() {
       <Stack.Screen name="Map" component={Map} />
       <Stack.Screen name="ChatBot" component={ChatBot} />
       <Stack.Screen name="CrystalReport" component={CrystalReport} />
-      <Stack.Screen name="HealthPredict" component={HealthPredict} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
       <Stack.Screen name="AboutUs" component={AboutUs} />
       <Stack.Screen name="ContactUs" component={ContactUs} />
       <Stack.Screen name="TermCondition" component={TermCondition} />
+      <Stack.Screen name="History" component={History} />
     </Stack.Navigator>
   );
 }

@@ -127,8 +127,8 @@ export default ChatBot1;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 10,
+    paddingRight: 10,
     backgroundColor: "#f8f8f8",
   },
   centeredMessageContainer: {
@@ -152,21 +152,21 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1, // Makes the input take up the full available width
-    height: 50,
+    height: 45,
     padding: 10,
     paddingRight: 50, // Space for the icon inside the input field
-    borderRadius: 50,
+    borderRadius: 20,
     color: "#333",
     backgroundColor: "#eeeeee",
   },
   iconButton: {
     position: "absolute", // Absolute positioning within the inputContainer
     right: 1, // Position it 10 units from the right edge of the inputContainer
-    top: "50%", // Vertically center the button
+    top: "55%", // Vertically center the button
     transform: [{ translateY: -22.5 }], // Adjust vertically (half of the button height)
-    width: 45, // Fixed width for the button
-    height: 45,
-    borderRadius: 23, // Circular button
+    width: 40, // Fixed width for the button
+    height: 40,
+    borderRadius: 20, // Circular button
     alignItems: "center",
     justifyContent: "center",
   },

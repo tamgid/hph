@@ -207,7 +207,7 @@ const Upload = ({ navigation, route }) => {
               >
                 <MaterialCommunityIcons
                   name="file-document"
-                  size={45}
+                  size={40}
                   color={colors[index % colors.length]}
                 />
 
@@ -259,7 +259,6 @@ const Upload = ({ navigation, route }) => {
         </TouchableOpacity>
       </View>
 
-      {/* Modal for renaming file */}
       {/* Modal for renaming file */}
       <Modal visible={modalVisible} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>
@@ -331,7 +330,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   button: {
-    paddingVertical: height * 0.02,
+    paddingVertical: height * 0.016,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#44c0fe",
@@ -344,7 +343,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   input: {
-    height: 50,
+    height: 48,
     borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 5,

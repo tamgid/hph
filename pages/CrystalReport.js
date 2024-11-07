@@ -70,9 +70,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '600',
     color: '#333',
-    marginBottom: 20,
+    marginBottom: 30,
   },
   chartContainer: {
     backgroundColor: '#fff',

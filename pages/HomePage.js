@@ -15,7 +15,6 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import { firebase } from "../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as ImagePicker from "expo-image-picker";
 
 const { width, height } = Dimensions.get("window");
 
@@ -62,7 +61,7 @@ const HomePage = ({ navigation }) => {
           } = userData;
           setName(name);
           setEmail(email);
-          setLocation(location); 
+          setLocation(location);
           setPhone(phone);
           setRegDate(regDate);
           setUsername(username);
@@ -96,66 +95,6 @@ const HomePage = ({ navigation }) => {
     })
   ).current;
 
-  // Function to pick an image from the user's device
-  const pickImage = async () => {
-    // Request permission to access media library
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      alert("Permission to access the media library is required!");
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 4],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      return result.assets[0].uri; // Return the selected image URI
-    }
-  };
-
-  // Function to upload the picked image to Firebase Storage
-  const uploadImage = async (uri) => {
-    const user = firebase.auth().currentUser; // Access the auth service through firebase
-    const storageRef = firebase.storage().ref(`users/${user.uid}/profile.jpg`); // Access the storage service through firebase
-    const response = await fetch(uri);
-    const blob = await response.blob();
-
-    await storageRef.put(blob);
-
-    // Get the download URL of the uploaded image
-    const downloadURL = await storageRef.getDownloadURL();
-    return downloadURL;
-  };
-
-  // Function to update Firestore with the image URL
-  const updateUserProfileImage = async (downloadURL) => {
-    const user = firebase.auth().currentUser; // Access the auth service through firebase
-    await firebase.firestore().collection("users").doc(user.uid).update({
-      // Access the firestore service through firebase
-      profileImage: downloadURL,
-    });
-  };
-
-  // Function to handle image picking and uploading
-  const handleImagePick = async () => {
-    try {
-      const imageUri = await pickImage(); // Use expo-image-picker
-      if (imageUri) {
-        const downloadURL = await uploadImage(imageUri);
-        await updateUserProfileImage(downloadURL);
-        setProfileImage(downloadURL); // Update the profile image state
-      }
-    } catch (error) {
-      console.error("Error picking or uploading image:", error);
-    }
-  };
-
   const buttonData = [
     { id: 1, text: "CheckHeart", icon: "heartbeat", screen: "CheckHealth" },
     { id: 2, text: "Reviews", icon: "thumbs-up", screen: "RatingList" },
@@ -164,7 +103,13 @@ const HomePage = ({ navigation }) => {
     { id: 5, text: "CardioCare", icon: "video-camera", screen: "EmbedVideo" },
     { id: 6, text: "Geolocation", icon: "map-marker", screen: "Map" },
     { id: 7, text: "Counselor", icon: "comments", screen: "ChatBot" },
-    { id: 8, text: "CrystalReport", icon: "comments", screen: "CrystalReport" },
+    {
+      id: 8,
+      text: "CrystalReport",
+      icon: "clipboard",
+      screen: "CrystalReport",
+    },
+    { id: 9, text: "History", icon: "history", screen: "History" },
   ];
 
   const toggleSidebar = () => {
@@ -304,35 +249,23 @@ const HomePage = ({ navigation }) => {
       {/* Sidebar */}
       {sidebarVisible && (
         <Animated.View style={[styles.sidebar, sidebarStyle]}>
-          <ImageBackground
-            source={require("../image/sidebar_background.png")} // Path to your image
-            style={styles.sidebar} // Applying styles to ensure the image covers the entire sidebar
-          >
+          <View style={styles.profileContainer}>
             {/* Developer Info */}
             <View style={styles.developerInfo}>
-              <TouchableOpacity
-                onPress={handleImagePick}
-                style={styles.imageContainer}
-              >
-                <Image
-                  source={
-                    profileImage
-                      ? { uri: profileImage }
-                      : require("../image/User.jpg")
-                  }
-                  style={styles.developerImage}
-                />
-                <Icon
-                  name="camera"
-                  size={20}
-                  color="#fff"
-                  style={styles.cameraIcon}
-                />
-              </TouchableOpacity>
+              <Image
+                source={
+                  profileImage
+                    ? { uri: profileImage }
+                    : require("../image/User.jpg")
+                }
+                style={styles.profilePicture}
+              />
               <Text style={styles.developerName}>{name}</Text>
             </View>
+          </View>
 
-            {/* Sidebar Options */}
+          {/* Sidebar Options */}
+          <View style={styles.detailsContainer}>
             <TouchableOpacity
               style={styles.sidebarOption}
               onPress={() => {
@@ -371,7 +304,7 @@ const HomePage = ({ navigation }) => {
                 color="#333"
                 style={styles.sidebarOptionIcon}
               />
-              <Text style={styles.sidebarOptionText}>About Us</Text>
+              <Text style={styles.sidebarOptionText}>About App</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.sidebarOption}
@@ -383,7 +316,7 @@ const HomePage = ({ navigation }) => {
                 color="#333"
                 style={styles.sidebarOptionIcon}
               />
-              <Text style={styles.sidebarOptionText}>Contact Us</Text>
+              <Text style={styles.sidebarOptionText}>Contact With Team</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.sidebarOption}
@@ -409,7 +342,7 @@ const HomePage = ({ navigation }) => {
               />
               <Text style={styles.sidebarOptionText}>Sign Out</Text>
             </TouchableOpacity>
-          </ImageBackground>
+          </View>
         </Animated.View>
       )}
     </ScrollView>
@@ -420,6 +353,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f9f5f2", // Light gray background
+  },
+  profileContainer: {
+    backgroundColor: "#34b88c",
+    alignItems: "center",
+    paddingTop: height * 0.05,
+  },
+  detailsContainer: {
+    position: "relative",
+    backgroundColor: "#f9f5f2",
+    paddingLeft: width * 0.09,
+    paddingTop: height * 0.02,
+    height: "100%", // Ensures the sidebar covers the entire height of the screen
   },
   /* Part 1: Header */
   header: {
@@ -560,42 +505,26 @@ const styles = StyleSheet.create({
 
   sidebar: {
     position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
     width: 280,
     elevation: 5,
     zIndex: 2,
-    padding: 20,
   },
   developerInfo: {
     alignItems: "flex-start", // Align items to the start (left) of the container
-    marginBottom: 35,
+    marginBottom: 20,
   },
-  imageContainer: {
-    position: "relative", // Ensure the camera icon is positioned absolutely relative to this container
-    alignItems: "flex-start", // Align the image to the start (left)
-  },
-  developerImage: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    marginTop: 10, // Ensure some space above the image if needed
-  },
-  cameraIcon: {
-    position: "absolute",
-    bottom: 5, // Adjust the bottom distance from the edge of the image
-    right: 4, // Adjust the right distance from the edge of the image
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Optional: to give some background to the icon
-    borderRadius: 15,
-    padding: 5,
+  profilePicture: {
+    width: 100,
+    height: 100,
+    borderRadius: 55,
+    borderWidth: 3,
+    borderColor: "#fff",
   },
   developerName: {
     fontSize: 16,
     fontWeight: "bold",
     marginTop: 10,
   },
-
   sidebarOption: {
     flexDirection: "row",
     alignItems: "center",

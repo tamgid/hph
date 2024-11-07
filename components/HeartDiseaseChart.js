@@ -7,7 +7,7 @@ const screenWidth = Dimensions.get('window').width;
 const HeartDiseasePieChart = ({ heartDiseaseCount, noHeartDiseaseCount }) => {
   const data = [
     {
-      name: 'Yes',
+      name: 'Disease',
       population: heartDiseaseCount,
       color: '#ff6384',
       legendFontColor: '#333',

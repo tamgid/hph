@@ -45,7 +45,7 @@ const Rating = ({ navigation, route }) => {
               profileImage: userData.profileImage,
               rating: selectedRating,
               review: review,
-              date: currentDate.toISOString(), // Convert date to string format for storage
+              timestamp: currentDate, // Convert date to string format for storage
               likes: 0, // Default value for likes
               dislikes: 0, // Default value for dislikes
             });
@@ -112,7 +112,7 @@ const Rating = ({ navigation, route }) => {
           >
             <Ionicons
               name={selectedRating >= rating ? "star" : "star-outline"}
-              size={30}
+              size={25}
               color={selectedRating >= rating ? "#01875f" : "#34b88c"}
             />
           </TouchableOpacity>
@@ -152,10 +152,9 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
   },
   starButton: {
-    padding: 15,
+    padding: 10,
   },
   reviewInput: {
     height: 70,
@@ -168,7 +167,7 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     backgroundColor: "#3498db",
-    padding: 15,
+    padding: 13,
     borderRadius: 5,
   },
   submitButtonText: {

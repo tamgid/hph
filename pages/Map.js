@@ -138,7 +138,7 @@ const Map = () => {
           params: {
             origin: `${userCoords.latitude},${userCoords.longitude}`,
             destination: `${hospital.latitude},${hospital.longitude}`,
-            key: "AlzaSySOYgKJVer7jrti2thlMZtnMuZ0o1HFmGC", // Your fixed API key
+            key: "AlzaSyA-Zg33RrM2Jp9KAPddljnYxGfpR1O7mke", // Your fixed API key
             mode: "driving", // Set the mode to driving to get car routes
           },
         }

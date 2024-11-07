@@ -183,6 +183,14 @@ const RatingList = ({ navigation, route }) => {
     }
   };
 
+  const formatDate = (timestamp) => {
+    if (timestamp) {
+      const date = timestamp.toDate(); // Converts Firestore timestamp to JS Date object
+      return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`; // e.g. "9/25/2024 1:30 PM"
+    }
+    return "No date available";
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.upContainer}>
@@ -216,7 +224,7 @@ const RatingList = ({ navigation, route }) => {
                     />
                   ))}
                 </View>
-                <Text style={styles.dateText}>{rating.date}</Text>
+                <Text style={styles.dateText}>{rating.timestamp ? formatDate(rating.timestamp) : "No date available"}</Text>
               </View>
               <Text style={styles.reviewText}>{rating.review}</Text>
               <View style={styles.actionsContainer}>
