@@ -54,36 +54,39 @@ The **Logistic Regression model** trained for this project achieved over **80% a
 
 ## 📸 Screenshots
 
-### This is the main entry point of the app
-![Front Page](app_screenshot/1.png)
+### Screenshot 1: This is the main entry point of the app
+### Screenshot 2: Sign in to your account to access your dashboard.
+### Screenshot 3: Home page with quick links to all essential features.
+### Screenshot 4: This is the Sidebar
+### Screenshot 5: Your personal profile information and settings.
+### Screenshot 6: This is our model performance
+### Screenshot 7: Browse through user ratings and reviews.
+### Screenshot 8: Upload documents securely for record-keeping.
+### Screenshot 9: Detailed information on individual patients.
+### Screenshot 10: Chat with our health bot for quick advice.
+<div style="display: flex; gap: 10px;">
 
-### Sign in to your account to access your dashboard.
-![Sign In](app_screenshot/4.png)
+  <img src="app_screenshot/1.png" alt="Front Page" width="200" height="400"/>
+  
+  <img src="app_screenshot/4.png" alt="Sign In" width="200" height="400"/>
+  
+  <img src="app_screenshot/5.png" alt="Home Page" width="200" height="400"/>
 
-### Home page with quick links to all essential features.
-![Home Page](app_screenshot/5.png)
+  <img src="app_screenshot/6.png" alt="Side Bar" width="200" height="400"/>
 
-### This is the Sidebar
-![Side Bar](app_screenshot/6.png)
+  <img src="app_screenshot/7.png" alt="Profile" width="200" height="400"/>
 
-### Your personal profile information and settings.
-![Profile](app_screenshot/7.png)
+  <img src="app_screenshot/9.png" alt="Model" width="200" height="400"/>
 
-### This is our model performance
-![Model](app_screenshot/9.png)
+  <img src="app_screenshot/11.png" alt="Rating and Review" width="200" height="400"/>
 
-### Browse through user ratings and reviews.
-![Rating and Review](app_screenshot/11.png)
+  <img src="app_screenshot/13.png" alt="Uploaded documents" width="200" height="400"/>
 
-### Upload documents securely for record-keeping.
-![Upload documents](app_screenshot/13.png)
+  <img src="app_screenshot/15.png" alt="Patients" width="200" height="400"/>
 
-### Detailed information on individual patients.
-![Patients](app_screenshot/15.png)
+  <img src="app_screenshot/17.png" alt="ChatBot" width="200" height="400"/>
 
-### Chat with our health bot for quick advice.
-![ChatBot](app_screenshot/17.png)
-
+</div>
 
 ---
 
